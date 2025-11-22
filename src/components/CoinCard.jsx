@@ -8,8 +8,9 @@ const CoinCard = ({coin}) => {
                   <p className="symbol">{coin.symbol.toUpperCase()}</p>
                 </div>
               </div>
-              <p>Price: ${coin.current_price.toLocaleString()}</p>
-              <p className={coin.price_change_percentage_24h >= 0 ? 'positive' : 'negative'}>{coin.price_change_percentage_24h >= 0 && '+'}{coin.price_change_percentage_24h.toFixed(2)}%</p>
+              <p><b>Price: ${coin.current_price.toLocaleString()}</b></p>
+              <p className={coin.price_change_percentage_24h >= 0 ? 'positive' : 'negative'}><b>{coin.price_change_percentage_24h >= 0 && '+'}{coin.price_change_percentage_24h.toFixed(2)}%</b></p>
+              <p><b>Market Cap:</b> {coin.market_cap}</p>
             </div>
      );
 }
