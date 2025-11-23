@@ -69,7 +69,7 @@ function App() {
   return (
     <div>
       <h1>Crypto Pulse 🚀</h1>
-      {loading && <p>Loading Market Data...</p>}
+      {loading && <p className="error">Loading Market Data...</p>}
       {!loading && error && <div className="error">{error}</div>}
       <div className="top-controls">
         <FilterInput filter={filter} onFilterChange={setFilter} />
@@ -83,7 +83,7 @@ function App() {
           {filteredCoins.length > 0 ? (
             filteredCoins.map((coin) => <CoinCard coin={coin} currency={currency} key={coin.id} />)
           ) : (
-            <p>No match found</p>
+            <p className="error">No match found!</p>
           )}
         </main>
       )}
