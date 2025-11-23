@@ -78,7 +78,8 @@ a {
 }
 
 .top-controls .filter {
-  flex: 1;
+  flex-shrink: 0;
+  flex-grow: 1;
 }
 
 .top-controls .controls {

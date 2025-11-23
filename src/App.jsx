@@ -3,6 +3,7 @@ import CoinCard from "./components/CoinCard";
 import LimitSelector from "./components/LimitSelector";
 import FilterInput from "./components/FilterInput";
 import SortSelector from "./components/SortSelector";
+import CurrencyChanger from "./components/CurrencyChanger";
 
 const API_URL = "https://api.coingecko.com/api/v3/coins/markets";
 
@@ -13,13 +14,17 @@ function App() {
   const [limit, setLimit] = useState(10);
   const [filter, setFilter] = useState("");
   const [sortBy, setSortBy] = useState("market_cap_desc");
+  const [currency, setCurrency] = useState(() => {
+    const userLang = navigator.language;
+    return userLang === 'en-IN' ? 'inr' : 'usd'
+  });
 
   useEffect(() => {
     const fetchCoins = async () => {
       try {
         const response = await fetch(
           API_URL +
-            `?vs_currency=usd&order=market_cap_desc&per_page=${limit}&page=1&sparkline=false`
+            `?vs_currency=${currency}&order=market_cap_desc&per_page=${limit}&page=1&sparkline=false`
         );
         if (!response.ok) throw new Error("Failed to load data");
         const data = await response.json();
@@ -33,7 +38,7 @@ function App() {
     };
 
     fetchCoins();
-  }, [limit]);
+  }, [limit, currency]);
 
   const filteredCoins = coins
     .filter((coin) => {
@@ -70,12 +75,13 @@ function App() {
         <FilterInput filter={filter} onFilterChange={setFilter} />
         <SortSelector sortBy={sortBy} onSortChange={setSortBy} />
         <LimitSelector limit={limit} onLimitChange={setLimit} />
+        <CurrencyChanger currency={currency} onCurrencyChange={setCurrency} />
       </div>
 
       {!loading && !error && (
         <main className="grid">
           {filteredCoins.length > 0 ? (
-            filteredCoins.map((coin) => <CoinCard coin={coin} key={coin.id} />)
+            filteredCoins.map((coin) => <CoinCard coin={coin} currency={currency} key={coin.id} />)
           ) : (
             <p>No match found</p>
           )}
