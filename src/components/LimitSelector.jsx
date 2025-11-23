@@ -1,6 +1,6 @@
 const LimitSelector = ({limit, onLimitChange}) => {
     return ( <div className="controls">
-        <label htmlFor="limit">Show: </label>
+        <label htmlFor="limit"><img src="/list.svg" className="icon" /></label>
       <select name="limit" id="limit" value={limit} onChange={(e) => onLimitChange(Number(e.target.value))}>
         <option value="10">10</option>
         <option value="25">25</option>

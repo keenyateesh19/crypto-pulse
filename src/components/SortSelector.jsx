@@ -1,7 +1,7 @@
 const SortSelector = ({ sortBy, onSortChange }) => {
   return (
     <div className="controls">
-      <label htmlFor="sort">Sort By:</label>
+      <label htmlFor="sort"><img src="/sort.svg" className="icon" /></label>
       <select
         name="sort"
         id="sort"

@@ -1,6 +1,7 @@
 const FilterInput = ({ filter, onFilterChange }) => {
   return (
     <div className="filter">
+      <img src="/search.svg" className="icon" />
       <input
         type="text"
         value={filter}
