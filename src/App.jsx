@@ -68,7 +68,7 @@ function App() {
 
   return (
     <div>
-      <h1>Crypto Pulse 🚀</h1>
+      <h1>Crypto Pulse 💗</h1>
       {loading && <p className="error">Loading Market Data...</p>}
       {!loading && error && <div className="error">{error}</div>}
       <div className="top-controls">
