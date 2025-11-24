@@ -20,17 +20,27 @@ const HomePage = () => {
 
   useEffect(() => {
     const fetchCoins = async () => {
+      const options = {
+        'method': 'GET',
+        headers: {
+          'x-cg-demo-api-key': import.meta.env.VITE_API_KEY
+        },
+        'body': undefined
+      }
       try {
         const response = await fetch(
           API_URL +
-            `?vs_currency=${currency}&order=market_cap_desc&per_page=${limit}&page=1&sparkline=false`
+            `?vs_currency=${currency}&order=market_cap_desc&per_page=${limit}&page=1&sparkline=false`,
+            options
         );
         if (!response.ok) throw new Error("Failed to load data");
         const data = await response.json();
         setCoins(data);
+        console.log(data)
       } catch (err) {
         setError(err.message);
         console.error(err.message);
+        console.log("This is a fetch error")
       } finally {
         setLoading(false);
       }
