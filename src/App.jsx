@@ -2,6 +2,8 @@ import { useState } from "react";
 import HomePage from "./pages/home";
 import { HomeContext } from "./context/HomeContext";
 import { Route, Routes } from "react-router";
+import AboutPage from "./pages/about";
+import Header from "./components/Header";
 
 const API_URL = "https://api.coingecko.com/api/v3/coins/markets";
 
@@ -19,9 +21,10 @@ function App() {
 
   return (
     <>
+      <Header />
       <Routes>
         <Route
-          path={"/"}
+          path="/"
           element={
             <HomeContext.Provider
               value={{
@@ -39,6 +42,7 @@ function App() {
             </HomeContext.Provider>
           }
         ></Route>
+        <Route path="/about" element={<AboutPage />}></Route>
       </Routes>
     </>
   );

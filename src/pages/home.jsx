@@ -12,7 +12,7 @@ const HomePage = () => {
     const [coins, setCoins] = homeContext.coin;
     const [loading, setLoading] = homeContext.load;
     const [error, setError] = homeContext.err;
-    const [limit, setLimit] = homeContext.limits;
+    const [limit, setLimit] = homeContext.limits; 
     const [filter, setFilter] = homeContext.inputFilter;
     const [sortBy, setSortBy] = homeContext.sort;
     const [currency, setCurrency] = homeContext.currencyValue;
@@ -67,7 +67,6 @@ const HomePage = () => {
 
   return (
     <div>
-      <h1>Crypto Pulse 💗</h1>
       {loading && <p className="error">Loading Market Data...</p>}
       {!loading && error && <div className="error">{error}</div>}
       <div className="top-controls">

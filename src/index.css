@@ -138,9 +138,18 @@ a {
 /* Top Nav */
 .top-nav {
   display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 1rem;
+}
+
+.top-nav h1 {
+  margin-bottom: 0;
+}
+
+.top-nav div:last-child {
+  display: flex;
+  gap: 1rem;
 }
 
 .top-nav a {
@@ -148,10 +157,14 @@ a {
   text-decoration: none;
   font-weight: bold;
   transition: color 0.2s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
 }
 
 .top-nav a:hover {
   color: #4090db;
+  background-color: #1c1f26;
+  
 }
 
 /* About Page */
