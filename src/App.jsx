@@ -45,7 +45,6 @@ function App() {
           }
         />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/coin/:id" element={<CoinDetailsPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
