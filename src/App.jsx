@@ -1,9 +1,9 @@
 import { useState } from "react";
 import HomePage from "./pages/home";
 import { HomeContext } from "./context/HomeContext";
+import { Route, Routes } from "react-router";
 
 const API_URL = "https://api.coingecko.com/api/v3/coins/markets";
-
 
 function App() {
   const [coins, setCoins] = useState([]);
@@ -17,22 +17,30 @@ function App() {
     return userLang === "en-IN" ? "inr" : "usd";
   });
 
-
   return (
-    <HomeContext.Provider
-      value={{
-        coin: [coins, setCoins],
-        load: [loading, setLoading],
-        err: [error, setError],
-        limits: [limit, setLimit],
-        inputFilter: [filter, setFilter],
-        sort: [sortBy, setSortBy],
-        currencyValue: [currency, setCurrency],
-        API_URL
-      }}
-    >
-      <HomePage />
-    </HomeContext.Provider>
+    <>
+      <Routes>
+        <Route
+          path={"/"}
+          element={
+            <HomeContext.Provider
+              value={{
+                coin: [coins, setCoins],
+                load: [loading, setLoading],
+                err: [error, setError],
+                limits: [limit, setLimit],
+                inputFilter: [filter, setFilter],
+                sort: [sortBy, setSortBy],
+                currencyValue: [currency, setCurrency],
+                API_URL,
+              }}
+            >
+              <HomePage />
+            </HomeContext.Provider>
+          }
+        ></Route>
+      </Routes>
+    </>
   );
 }
 
