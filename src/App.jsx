@@ -4,6 +4,7 @@ import { HomeContext } from "./context/HomeContext";
 import { Route, Routes } from "react-router";
 import AboutPage from "./pages/about";
 import Header from "./components/Header";
+import NotFound from "./pages/not-found";
 
 const API_URL = "https://api.coingecko.com/api/v3/coins/markets";
 
@@ -43,7 +44,9 @@ function App() {
           }
         ></Route>
         <Route path="/about" element={<AboutPage />}></Route>
+        <Route path="*" element={<NotFound />}></Route>
       </Routes>
+
     </>
   );
 }
