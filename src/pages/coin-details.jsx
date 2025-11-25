@@ -77,6 +77,7 @@ const CoinDetailsPage = () => {
             alt={coinData.name}
             className="coin-details-image"
           />
+          <CoinChart coinId={id} currency={currency} locale={locale} currencySymbol={symbol} />
           <p>{coinData.description.en.split(". ")[0] + "."}</p>
           <div className="coin-details-info">
             <h3>Rank: #{coinData.market_cap_rank}</h3>
@@ -128,7 +129,7 @@ const CoinDetailsPage = () => {
             </h4>
             <h4>Last Updated: {new Date().toLocaleDateString(locale)}</h4>
           </div>
-          <CoinChart coinId={id} currency={currency} locale={locale} currencySymbol={symbol} />
+          
           <div className="coin-details-links">
             {coinData.links.homepage[0] && (
               <p>
