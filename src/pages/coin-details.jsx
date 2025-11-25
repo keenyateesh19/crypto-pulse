@@ -2,6 +2,7 @@ import { useContext, useEffect, useReducer } from "react";
 import { Link, useParams } from "react-router";
 import { CurrencyContext } from "../context/CurrencyContext";
 import Spinner from "../components/Spinner";
+import CoinChart from "../components/CoinChart";
 const API_URL = import.meta.env.VITE_API_COIN_URL;
 
 const CoinDetailsPage = () => {
@@ -13,7 +14,6 @@ const CoinDetailsPage = () => {
   function reducer(state, action) {
     switch (action.type) {
       case "SETCOINS": {
-        console.log(action.data);
         return { ...state, coinData: action.data };
       }
       case "STOPLOADING": {
@@ -42,7 +42,6 @@ const CoinDetailsPage = () => {
     };
     const fetchCoin = async () => {
       try {
-        console.log(API_URL + id);
         const response = await fetch(API_URL + id, options);
         if (!response.ok) throw new Error("Failed to get coin data");
         const data = await response.json();
@@ -62,16 +61,17 @@ const CoinDetailsPage = () => {
 
   return (
     <div className="coin-details-container">
-      <Link to="/">← Back to Home</Link>
-
-      <h1 className="coin-dtails-title">
-        {coinData ? `${coinData.name} (${coinData.symbol?.toUpperCase()})` : "Coin Details"}
-      </h1>
+      
       {loading && <Spinner />}
       {error && <div className="error">❌ {error}</div>}
 
       {!loading && !error && (
         <>
+          <Link to="/">← Back to Home</Link>
+
+      <h1 className="coin-dtails-title">
+        {coinData ? `${coinData.name} (${coinData.symbol?.toUpperCase()})` : "Coin Details"}
+      </h1>
           <img
             src={coinData.image.large}
             alt={coinData.name}
@@ -128,6 +128,7 @@ const CoinDetailsPage = () => {
             </h4>
             <h4>Last Updated: {new Date().toLocaleDateString(locale)}</h4>
           </div>
+          <CoinChart coinId={id} currency={currency} locale={locale} currencySymbol={symbol} />
           <div className="coin-details-links">
             {coinData.links.homepage[0] && (
               <p>

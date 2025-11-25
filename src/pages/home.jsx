@@ -8,16 +8,9 @@ import CurrencyChanger from "../components/CurrencyChanger";
 import Spinner from "../components/Spinner";
 
 const HomePage = () => {
-    const homeContext = useContext(HomeContext);
+    const { homeState, dispatch, API_URL } = useContext(HomeContext);
 
-    const [coins, setCoins] = homeContext.coin;
-    const [loading, setLoading] = homeContext.load;
-    const [error, setError] = homeContext.err;
-    const [limit, setLimit] = homeContext.limits; 
-    const [filter, setFilter] = homeContext.inputFilter;
-    const [sortBy, setSortBy] = homeContext.sort;
-    const [currency, setCurrency] = homeContext.currencyValue;
-    const API_URL = homeContext.API_URL;
+    const {coins, loading, error, limit, filter, sortBy, currency} = homeState;
 
   useEffect(() => {
     const fetchCoins = async () => {
@@ -36,14 +29,12 @@ const HomePage = () => {
         );
         if (!response.ok) throw new Error("Failed to load data");
         const data = await response.json();
-        setCoins(data);
-        console.log(data)
+        dispatch({type: 'SetData', data})
       } catch (err) {
-        setError(err.message);
+        dispatch({type: 'SetError', data: err.message})
         console.error(err.message);
-        console.log("This is a fetch error")
       } finally {
-        setLoading(false);
+        dispatch({ type: 'SetLoading' })
       }
     };
 
@@ -81,10 +72,10 @@ const HomePage = () => {
       {loading && <Spinner color="white" />}
       {!loading && error && <div className="error">{error}</div>}
       <div className="top-controls">
-        <FilterInput filter={filter} onFilterChange={setFilter} />
-        <SortSelector sortBy={sortBy} onSortChange={setSortBy} />
-        <LimitSelector limit={limit} onLimitChange={setLimit} />
-        <CurrencyChanger currency={currency} onCurrencyChange={setCurrency} />
+        <FilterInput filter={filter} onFilterChange={(data) => dispatch({type: 'SetFilter', data})} />
+        <SortSelector sortBy={sortBy} onSortChange={(data) => dispatch({type: 'SortBy', data})} />
+        <LimitSelector limit={limit} onLimitChange={(data) => dispatch({type: 'SetLimit', data})} />
+        <CurrencyChanger currency={currency} onCurrencyChange={(data) => dispatch({type: 'SetCurrency', data})} />
       </div>
 
       {!loading && !error && (

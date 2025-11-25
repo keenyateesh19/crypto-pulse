@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useReducer } from "react";
 import HomePage from "./pages/home";
 import { HomeContext } from "./context/HomeContext";
 import { Route, Routes } from "react-router";
@@ -8,19 +8,46 @@ import NotFound from "./pages/not-found";
 import CoinDetailsPage from "./pages/coin-details";
 import { CurrencyContext } from "./context/CurrencyContext";
 
-const API_URL = 'https://api.coingecko.com/api/v3/coins/markets';
+const API_URL = import.meta.env.VITE_API_MARKET_URL;
 
 function App() {
-  const [coins, setCoins] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [limit, setLimit] = useState(10);
-  const [filter, setFilter] = useState("");
-  const [sortBy, setSortBy] = useState("market_cap_desc");
-  const [currency, setCurrency] = useState(() => {
-    const userLang = navigator.language;
-    return userLang === "en-IN" ? "inr" : "usd";
-  });
+  function reducer(state, action) {
+    switch (action.type) {
+      case  'SetData': 
+        return {...state, coins: action.data};
+      case 'SetError':
+        return {...state, error: action.data};
+      case 'SetLoading':
+        return {...state, loading: false};
+      case 'SortBy':
+        return {...state, sortBy: action.data};
+      case 'SetLimit':
+        return {...state, limit: action.data};
+      case 'SetCurrency':
+        return {...state, currency: action.data};
+      case 'SetFilter':
+        return {...state, filter: action.data}
+      default:
+        return state;
+    }
+  }
+
+  const initialHome = {
+    coins: [],
+    loading: true,
+    error: null,
+    limit: 10,
+    filter: "",
+    sortBy: "market_cap_desc",
+    currency: (() => {
+      const userLang = navigator.language;
+      return userLang === "en-IN" ? "inr" : "usd";
+    })(),
+  };
+
+  const [homeState, dispatch] = useReducer(reducer, initialHome);
+
+  const {currency} = homeState;
 
   return (
     <>
@@ -30,29 +57,23 @@ function App() {
           path="/"
           element={
             <HomeContext.Provider
-              value={{
-                coin: [coins, setCoins],
-                load: [loading, setLoading],
-                err: [error, setError],
-                limits: [limit, setLimit],
-                inputFilter: [filter, setFilter],
-                sort: [sortBy, setSortBy],
-                currencyValue: [currency, setCurrency],
-                API_URL,
-              }}
+              value={{homeState, dispatch, API_URL}}
             >
               <HomePage />
             </HomeContext.Provider>
           }
         />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/coin/:id" element={<CurrencyContext.Provider value={{ currency }}>
-          <CoinDetailsPage />
-        </CurrencyContext.Provider>
-          } />
+        <Route
+          path="/coin/:id"
+          element={
+            <CurrencyContext.Provider value={{ currency }}>
+              <CoinDetailsPage />
+            </CurrencyContext.Provider>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
-
     </>
   );
 }
