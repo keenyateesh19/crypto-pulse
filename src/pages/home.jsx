@@ -5,6 +5,7 @@ import LimitSelector from "../components/LimitSelector";
 import FilterInput from "../components/FilterInput";
 import SortSelector from "../components/SortSelector";
 import CurrencyChanger from "../components/CurrencyChanger";
+import Spinner from "../components/Spinner";
 
 const HomePage = () => {
     const homeContext = useContext(HomeContext);
@@ -77,7 +78,7 @@ const HomePage = () => {
 
   return (
     <div>
-      {loading && <p className="error">Loading Market Data...</p>}
+      {loading && <Spinner color="white" />}
       {!loading && error && <div className="error">{error}</div>}
       <div className="top-controls">
         <FilterInput filter={filter} onFilterChange={setFilter} />
