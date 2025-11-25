@@ -6,6 +6,7 @@ import AboutPage from "./pages/about";
 import Header from "./components/Header";
 import NotFound from "./pages/not-found";
 import CoinDetailsPage from "./pages/coin-details";
+import { CurrencyContext } from "./context/CurrencyContext";
 
 const API_URL = 'https://api.coingecko.com/api/v3/coins/markets';
 
@@ -45,6 +46,10 @@ function App() {
           }
         />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/coin/:id" element={<CurrencyContext.Provider value={{ currency }}>
+          <CoinDetailsPage />
+        </CurrencyContext.Provider>
+          } />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
